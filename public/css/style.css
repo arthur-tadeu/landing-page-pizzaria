@@ -364,8 +364,10 @@ ul, ol {
 .hero-image-section {
     position: relative;
     width: 100%;
-    height: 100vh;
-    min-height: 600px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--clr-black);
     overflow: hidden;
 }
@@ -373,18 +375,19 @@ ul, ol {
 .hero-image-wrapper {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    min-height: 600px;
 }
 
 .hero-bg-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center center;
     display: block;
 }
 
-/* — Multi-layer overlay for depth and readability — */
+/* — Light subtle overlay for readability without obscuring fundo.png — */
 .video-overlay {
     position: absolute;
     inset: 0;
@@ -394,11 +397,12 @@ ul, ol {
     justify-content: flex-start;
     padding-left: 8%;
     padding-right: 8%;
-    /* Multi-layered gradient for cinematic feel */
-    background:
-        radial-gradient(ellipse at 20% 50%, rgba(92, 26, 26, 0.15) 0%, transparent 60%),
-        radial-gradient(ellipse at center, rgba(10, 10, 10, 0.1) 0%, rgba(10, 10, 10, 0.7) 70%),
-        linear-gradient(180deg, rgba(10, 10, 10, 0.3) 0%, transparent 30%, transparent 70%, rgba(10, 10, 10, 0.9) 100%);
+    background: linear-gradient(
+        90deg,
+        rgba(10, 10, 10, 0.4) 0%,
+        rgba(10, 10, 10, 0.15) 50%,
+        rgba(10, 10, 10, 0.3) 100%
+    );
 }
 
 /* Subtle noise texture via pseudo-element */
