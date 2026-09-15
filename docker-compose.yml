@@ -1,6 +1,6 @@
 services:
   bellaitalia:
-    build:
+    build: .
     container_name: bellaitalia
     ports:
       - 8002:80
