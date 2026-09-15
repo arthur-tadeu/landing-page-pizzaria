@@ -361,25 +361,26 @@ ul, ol {
    4. HERO — Video Scroll Section
    ========================================================================== */
 
-.video-scroll-section {
+.hero-image-section {
     position: relative;
-    height: 400vh; /* extended scrollable area for video sync */
-    background-color: var(--clr-black);
-}
-
-.sticky-video-wrapper {
-    position: sticky;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100vh;
+    min-height: 600px;
+    background-color: var(--clr-black);
     overflow: hidden;
 }
 
-#scroll-video {
+.hero-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-bg-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
 }
 
