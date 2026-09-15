@@ -9,7 +9,9 @@
     <meta name="theme-color" content="#f4ecdd">
     <title>Bella Italia | Pizzeria Napoletana — Forno a Lenha</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
         rel="stylesheet">
@@ -17,36 +19,39 @@
 </head>
 
 <body>
+    <a href="#cardapio" class="landing-skip">Ir para o cardápio</a>
 
-    <!-- Skip to content (accessibility) -->
-    <a href="#cardapio" class="skip-to-content">Ir para o cardápio</a>
+    <div class="landing-menu-overlay" id="landing-menu-overlay"></div>
 
-    <!-- Mobile menu overlay backdrop -->
-    <div class="mobile-menu-overlay" id="mobile-overlay" aria-hidden="true"></div>
+    <header class="landing-header" id="landing-header">
+        <nav class="landing-nav" aria-label="Navegação principal">
 
-    <header class="navbar-container" id="site-header">
-        <nav class="navbar-content" aria-label="Navegação principal">
-            <a class="brand-logo" href="#hero-section" aria-label="Bella Italia — início">
-                <svg class="brand-symbol" viewBox="0 0 48 32" aria-hidden="true">
-                    <path d="M5 26C15 17 25 10 42 5M14 20C9 18 7 14 8 10c5 0 9 3 10 7M23 14c-2-5 0-9 4-12 4 4 4 8 1 12M31 10c2-5 6-7 11-6 0 5-4 8-9 9" />
+            <a href="#hero-section" class="landing-brand" aria-label="Bella Italia — início">
+                <svg viewBox="0 0 48 32" aria-hidden="true">
+                    <path
+                        d="M5 26C15 17 25 10 42 5M14 20C9 18 7 14 8 10c5 0 9 3 10 7M23 14c-2-5 0-9 4-12 4 4 4 8 1 12M31 10c2-5 6-7 11-6 0 5-4 8-9 9" />
                 </svg>
+
                 <span>
                     <strong>Bella Italia</strong>
                     <small>Pizzeria Napoletana</small>
                 </span>
             </a>
 
-            <div class="nav-links" id="nav-links">
-                <a class="nav-item" href="#cardapio">Cardápio</a>
-                <a class="nav-item" href="#sobre">Nossa história</a>
-                <a class="nav-item" href="#ingredientes">Ingredientes</a>
-                <a class="nav-item" href="#contato">Contato</a>
+            <div class="landing-nav-links" id="landing-nav-links">
+                <a href="#cardapio">Cardápio</a>
+                <a href="#sobre">Nossa história</a>
+                <a href="#ingredientes">Ingredientes</a>
+                <a href="#contato">Contato</a>
             </div>
 
-            <a class="nav-cta" href="#contato">Pedir agora <span aria-hidden="true">→</span></a>
+            <a href="#contato" class="landing-nav-cta">
+                Pedir agora
+                <span aria-hidden="true">→</span>
+            </a>
 
-            <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Abrir menu de navegação"
-                aria-controls="nav-links" aria-expanded="false">
+            <button class="landing-menu-toggle" id="landing-menu-toggle" type="button" aria-label="Abrir menu"
+                aria-controls="landing-nav-links" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -54,668 +59,52 @@
         </nav>
     </header>
 
-
-    <!-- ================================================================
-         HERO
-         ================================================================ -->
     <section class="hero-image-section" id="hero-section">
-        <div class="hero-image-wrapper">
-            <img src="assets/imgs/hero-bella-italia.png" alt="" class="hero-bg-image"
-                loading="eager" fetchpriority="high">
-            <div class="hero-overlay">
-                <div class="hero-brand hero-copy">
-                    <span class="sub-tag">Pizzeria Napoletana</span>
-                    <h1 class="main-title">A <em>Itália</em> servida em cada fatia.</h1>
-                    <p class="hero-description">Massa de longa fermentação, ingredientes selecionados e o sabor
-                        inconfundível do forno a lenha.</p>
-                    <div class="hero-cta-group">
-                        <a href="#contato" class="btn-primary">Pedir agora <span aria-hidden="true">→</span></a>
-                        <a href="#cardapio" class="btn-secondary">Ver cardápio</a>
-                    </div>
-                    <div class="hero-status">
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                            <circle cx="12" cy="12" r="9"></circle>
-                            <path d="M12 7v5l3.5 2"></path>
-                        </svg>
-                        <span>Aberto hoje <i aria-hidden="true">•</i> 18h–23h</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <img src="assets/imgs/hero-bella-italia.png" alt="" class="landing-hero-background" loading="eager"
+            fetchpriority="high">
 
-    <!-- ================================================================
-         CARDÁPIO
-         ================================================================ -->
-    <section class="menu-section" id="cardapio">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="category-badge">Nosso Cardápio</span>
-                <h2 class="section-title">Pizzas Artesanais</h2>
-                <div class="title-divider"></div>
-            </div>
+        <div class="landing-hero-layout">
+            <div class="landing-hero-copy">
 
-            <!-- Category Filters -->
-            <div class="menu-filters reveal" role="toolbar" aria-label="Filtrar por categoria">
-                <button class="filter-btn active" data-filter="all" aria-pressed="true">Todas</button>
-                <button class="filter-btn" data-filter="tradicional" aria-pressed="false">Tradicionais</button>
-                <button class="filter-btn" data-filter="especial" aria-pressed="false">Especiais</button>
-                <button class="filter-btn" data-filter="vegetariana" aria-pressed="false">Vegetarianas</button>
-                <button class="filter-btn" data-filter="doce" aria-pressed="false">Doces</button>
-            </div>
+                <span class="landing-eyebrow">
+                    Pizzeria Napoletana
+                </span>
 
-            <!-- ── TRADICIONAIS ── -->
-            <div class="menu-category-heading" data-category-heading="tradicional">
-                <h3>Tradicionais</h3>
-            </div>
-            <div class="menu-grid" data-category-grid="tradicional">
-                <!-- Calabresa -->
-                <article class="menu-card reveal" data-category="tradicional" style="--card-index: 0">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Calabresa</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--popular">Mais Pedida</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Calabresa artesanal fatiada, cebola caramelizada, azeitonas pretas e orégano
-                        fresco sobre molho de tomate.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Calabresa">Pedir</button>
-                    </div>
-                </article>
+                <h1>
+                    A <em>Itália</em> servida em cada fatia.
+                </h1>
 
-                <!-- Mussarela -->
-                <article class="menu-card reveal" data-category="tradicional" style="--card-index: 1">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Mussarela</h3>
-                    </div>
-                    <p class="pizza-desc">Generosa camada de mussarela derretida, tomate fresco em rodelas e orégano
-                        sobre molho artesanal.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Mussarela">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Marguerita -->
-                <article class="menu-card reveal" data-category="tradicional" style="--card-index: 2">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Marguerita</h3>
-                    </div>
-                    <p class="pizza-desc">Mussarela de búfala, tomate San Marzano, manjericão fresco e azeite
-                        extravirgem. A clássica napolitana.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Marguerita">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Portuguesa -->
-                <article class="menu-card reveal" data-category="tradicional" style="--card-index: 3">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Portuguesa</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--popular">Mais Pedida</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Presunto, ovos, cebola, azeitonas, ervilha e mussarela. Sabor abundante em
-                        cada fatia.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Portuguesa">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Napolitana -->
-                <article class="menu-card reveal" data-category="tradicional" style="--card-index: 4">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Napolitana</h3>
-                    </div>
-                    <p class="pizza-desc">Molho de tomate encorpado, mussarela, tomate fatiado, parmesão ralado e
-                        manjericão. Simples e perfeita.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Napolitana">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Presunto e Queijo -->
-                <article class="menu-card reveal" data-category="tradicional" style="--card-index: 5">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Presunto e Queijo</h3>
-                    </div>
-                    <p class="pizza-desc">Fatias suculentas de presunto sobre mussarela derretida e orégano. A dupla que
-                        nunca falha.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Presunto e Queijo">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Frango com Catupiry -->
-                <article class="menu-card reveal" data-category="tradicional" style="--card-index: 6">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Frango com Catupiry</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--popular">Mais Pedida</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Frango desfiado temperado com ervas finas, coberto por catupiry cremoso e
-                        milho dourado.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Frango com Catupiry">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Milho com Bacon -->
-                <article class="menu-card reveal" data-category="tradicional" style="--card-index: 7">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Milho com Bacon</h3>
-                    </div>
-                    <p class="pizza-desc">Milho verde suculento, bacon crocante e mussarela gratinada. Textura e sabor
-                        irresistíveis.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Milho com Bacon">Pedir</button>
-                    </div>
-                </article>
-            </div>
-
-            <!-- ── ESPECIAIS ── -->
-            <div class="menu-category-heading" data-category-heading="especial">
-                <h3>Especiais</h3>
-            </div>
-            <div class="menu-grid" data-category-grid="especial">
-                <!-- Margherita Di Bufala (preserved from original) -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 0">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Margherita Di Bufala</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--special">Especial</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Tomates San Marzano DOP, muçarela de búfala fresca, folhas de manjericão e
-                        azeite extravirgem.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Margherita Di Bufala">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Prosciutto e Rucola (preserved from original) -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 1">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Prosciutto e Rucola</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--special">Especial</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Presunto Parma maturado 24 meses, rúcula selvagem, lascas de parmesão e
-                        redução balsâmica.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Prosciutto e Rucola">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Tartufo e Funghi (preserved from original) -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 2">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Tartufo e Funghi</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--special">Especial</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Creme de trufas negras, cogumelos porcini salteados, muçarela fior di latte e
-                        azeite trufado.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Tartufo e Funghi">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Fernando -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 3">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Fernando</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--special">Especial</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Criação exclusiva da casa com blend de queijos nobres, carne especial desfiada
-                        e toque de pimenta calabresa.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Fernando">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- 4 Queijos -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 4">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">4 Queijos</h3>
-                    </div>
-                    <p class="pizza-desc">Mussarela, provolone, gorgonzola e parmesão em harmonia. Uma sinfonia de
-                        sabores para os amantes de queijo.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir 4 Queijos">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Pepperoni -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 5">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Pepperoni</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--spicy">Picante</span>
-                            <span class="tag tag--popular">Mais Pedida</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Pepperoni artesanal crocante, mussarela abundante e molho de tomate italiano.
-                        Sabor intenso e marcante.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Pepperoni">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Carne Seca com Catupiry -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 6">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Carne Seca com Catupiry</h3>
-                    </div>
-                    <p class="pizza-desc">Carne seca desfiada e amaciada, coberta por catupiry cremoso e cebola dourada
-                        crocante.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Carne Seca com Catupiry">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Costela Barbecue -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 7">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Costela Barbecue</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--special">Especial</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Costela desfiada lentamente, molho barbecue defumado, cebola roxa e mussarela
-                        gratinada.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Costela Barbecue">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Bacon Especial -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 8">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Bacon Especial</h3>
-                    </div>
-                    <p class="pizza-desc">Bacon em tiras crocantes, mussarela, catupiry e cebola caramelizada no ponto.
-                        Indulgência pura.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Bacon Especial">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Frango com Bacon -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 9">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Frango com Bacon</h3>
-                    </div>
-                    <p class="pizza-desc">Frango desfiado suculento, bacon defumado, mussarela e um toque de cream
-                        cheese. Combinação perfeita.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Frango com Bacon">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Lombinho Canadense -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 10">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Lombinho Canadense</h3>
-                    </div>
-                    <p class="pizza-desc">Lombinho defumado em fatias finas, mussarela, catupiry e cebola roxa. Sabor
-                        sofisticado e marcante.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Lombinho Canadense">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Parma com Rúcula -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 11">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Parma com Rúcula</h3>
-                    </div>
-                    <p class="pizza-desc">Presunto Parma delicado sobre rúcula fresca, lascas de parmesão e fio de
-                        azeite trufado.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Parma com Rúcula">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Camarão Cremoso -->
-                <article class="menu-card reveal" data-category="especial" style="--card-index: 12">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Camarão Cremoso</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--special">Especial</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Camarões salteados no alho, creme de requeijão, tomate cereja e cebolinha. Uma
-                        experiência premium.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Camarão Cremoso">Pedir</button>
-                    </div>
-                </article>
-            </div>
-
-            <!-- ── VEGETARIANAS ── -->
-            <div class="menu-category-heading" data-category-heading="vegetariana">
-                <h3>Vegetarianas</h3>
-            </div>
-            <div class="menu-grid" data-category-grid="vegetariana">
-                <!-- Palmito -->
-                <article class="menu-card reveal" data-category="vegetariana" style="--card-index: 0">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Palmito</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--vegetarian">Vegetariana</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Palmito pupunha em fatias generosas, mussarela, azeitonas verdes e orégano.
-                        Leve e saborosa.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Palmito">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Brócolis com Queijo -->
-                <article class="menu-card reveal" data-category="vegetariana" style="--card-index: 1">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Brócolis com Queijo</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--vegetarian">Vegetariana</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Floretes de brócolis sobre creme de queijo, alho dourado e mussarela gratinada
-                        ao forno.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Brócolis com Queijo">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Abobrinha Especial -->
-                <article class="menu-card reveal" data-category="vegetariana" style="--card-index: 2">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Abobrinha Especial</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--vegetarian">Vegetariana</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Abobrinha grelhada com ervas finas, queijo de cabra, tomate seco e redução de
-                        balsâmico.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Abobrinha Especial">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Vegetariana -->
-                <article class="menu-card reveal" data-category="vegetariana" style="--card-index: 3">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Vegetariana</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--vegetarian">Vegetariana</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Pimentão colorido, champignon, milho, ervilha, cebola roxa, tomate e
-                        mussarela. Um jardim na pizza.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Vegetariana">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Rúcula com Tomate Seco -->
-                <article class="menu-card reveal" data-category="vegetariana" style="--card-index: 4">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Rúcula com Tomate Seco</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--vegetarian">Vegetariana</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Rúcula fresca, tomates secos marinados em azeite, queijo brie derretido e
-                        nozes crocantes.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Rúcula com Tomate Seco">Pedir</button>
-                    </div>
-                </article>
-            </div>
-
-            <!-- ── DOCES ── -->
-            <div class="menu-category-heading" data-category-heading="doce">
-                <h3>Doces</h3>
-            </div>
-            <div class="menu-grid" data-category-grid="doce">
-                <!-- Chocolate -->
-                <article class="menu-card reveal" data-category="doce" style="--card-index: 0">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Chocolate</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--sweet">Doce</span>
-                            <span class="tag tag--popular">Mais Pedida</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Chocolate ao leite derretido com granulado e borda recheada. Uma tentação
-                        irresistível.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Chocolate">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Chocolate com Morango -->
-                <article class="menu-card reveal" data-category="doce" style="--card-index: 1">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Chocolate com Morango</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--sweet">Doce</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Chocolate meio amargo com morangos frescos fatiados, leite condensado e açúcar
-                        de confeiteiro.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Chocolate com Morango">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Prestígio -->
-                <article class="menu-card reveal" data-category="doce" style="--card-index: 2">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Prestígio</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--sweet">Doce</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Chocolate ao leite, coco ralado fresco e leite condensado. O clássico bombom
-                        em formato de pizza.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Prestígio">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Romeu e Julieta -->
-                <article class="menu-card reveal" data-category="doce" style="--card-index: 3">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Romeu e Julieta</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--sweet">Doce</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Goiabada cascão derretida sobre queijo minas cremoso. O romance brasileiro que
-                        nunca sai de moda.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Romeu e Julieta">Pedir</button>
-                    </div>
-                </article>
-
-                <!-- Banana com Canela -->
-                <article class="menu-card reveal" data-category="doce" style="--card-index: 4">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <h3 class="pizza-title">Banana com Canela</h3>
-                        <div class="pizza-tags">
-                            <span class="tag tag--sweet">Doce</span>
-                        </div>
-                    </div>
-                    <p class="pizza-desc">Banana caramelizada, canela em pó, leite condensado e um toque de açúcar
-                        mascavo. Aconchego em cada mordida.</p>
-                    <div class="card-footer">
-                        <span class="pizza-price">R$ --</span>
-                        <button class="order-btn" aria-label="Pedir Banana com Canela">Pedir</button>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================================================================
-         SOBRE (Teste 1 — Massa)
-         ================================================================ -->
-    <section class="info-section" id="sobre">
-        <div class="container info-content">
-            <div class="info-text reveal">
-                <span class="category-badge">Nossa Massa</span>
-                <h2>Massa de Fermentação Natural</h2>
-                <p>Nossa massa passa por uma maturação lenta de 48 horas no ambiente controlado antes de ir ao forno de
-                    pedra a 450°C.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================================================================
-         INGREDIENTES (Teste 2)
-         ================================================================ -->
-    <section class="info-section alt-bg" id="ingredientes">
-        <div class="container info-content">
-            <div class="info-text reveal">
-                <span class="category-badge">Nossos Ingredientes</span>
-                <h2>Ingredientes Importados da Itália</h2>
-                <p>Recebemos semanalmente farinha 00 de Nápoles, tomates San Marzano e queijos das colinas da Campânia.
+                <p>
+                    Massa de longa fermentação, ingredientes selecionados
+                    e o sabor inconfundível do forno a lenha.
                 </p>
-            </div>
-        </div>
-    </section>
 
-    <!-- ================================================================
-         CONTATO
-         ================================================================ -->
-    <section class="contact-section" id="contato">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="category-badge">Contato</span>
-                <h2 class="section-title">Endereço & Reservas</h2>
-                <div class="title-divider"></div>
-            </div>
+                <div class="landing-hero-actions">
+                    <a href="#contato" class="landing-primary-button">
+                        Pedir agora
+                        <span aria-hidden="true">→</span>
+                    </a>
 
-            <div class="contact-grid">
-                <div class="contact-card reveal">
-                    <div class="contact-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
-                    </div>
-                    <h3>Localização</h3>
-                    <p>Via Roma, 104 — Centro</p>
+                    <a href="#cardapio" class="landing-secondary-button">
+                        Ver cardápio
+                    </a>
                 </div>
-                <div class="contact-card reveal">
-                    <div class="contact-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M12 6v6l4 2" />
-                        </svg>
-                    </div>
-                    <h3>Atendimento</h3>
-                    <p>Terça a Domingo: 18h — 23h30</p>
-                </div>
-                <div class="contact-card reveal">
-                    <div class="contact-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24">
-                            <path
-                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                        </svg>
-                    </div>
-                    <h3>Reservas</h3>
-                    <p>+55 (11) 99999-8888</p>
+
+                <div class="landing-opening">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M12 7v5l3.5 2"></path>
+                    </svg>
+
+                    <span>
+                        Aberto hoje
+                        <i>•</i>
+                        18h–23h
+                    </span>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- ================================================================
-         FOOTER
-         ================================================================ -->
-    <footer>
-        <div class="container footer-content">
-            <span class="footer-brand">BELLA ITALIA</span>
-            <p>&copy; 2026 Bella Italia. Todos os direitos reservados.</p>
-            <div class="footer-links">
-                <a href="#cardapio">Cardápio</a>
-                <a href="#sobre">Sobre</a>
-                <a href="#contato">Contato</a>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/scripts.js"></script>
 </body>
 
 </html>
