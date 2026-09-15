@@ -3,5 +3,5 @@ services:
     build: .
     container_name: bellaitalia
     ports:
-      - 8002:80
+      - 8082:80
     restart: unless-stopped
