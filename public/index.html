@@ -1,11 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Bella Italia | Pizzeria Napoletana</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    Em construção
+
+    <!-- NAV BAR -->
+    <nav class="navbar-container">
+        <div class="navbar-content">
+            <a href="#" class="brand-logo">BELLA ITALIA</a>
+            <div class="nav-links">
+                <a href="#cardapio" class="nav-item">Cardápio</a>
+                <a href="#contato" class="nav-item">Contato</a>
+                <a href="#teste1" class="nav-item">Teste 1</a>
+                <a href="#teste2" class="nav-item">Teste 2</a>
+            </div>
+            <button class="nav-cta">Reservar Mesa</button>
+        </div>
+    </nav>
+
+    <!-- HERO / VIDEO SCROLL SECTION -->
+    <section class="video-scroll-section" id="hero-section">
+        <div class="sticky-video-wrapper">
+            <video id="scroll-video" muted playsinline preload="auto">
+                <source src="assets/videos/video.mp4" type="video/mp4">
+                Seu navegador não suporta vídeos HTML5.
+            </video>
+            <div class="video-overlay">
+                <div class="hero-brand">
+                    <span class="sub-tag">// PIZZERIA NAPOLETANA</span>
+                    <h1 class="main-title">BELLA ITALIA.</h1>
+                    <h2 class="sub-title">// FORNO A LENHA</h2>
+                    <div class="scroll-indicator">
+                        <span>Role para explorar</span>
+                        <div class="chevron"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CARDÁPIO SECTION (Signature Pizzas) -->
+    <section class="menu-section" id="cardapio">
+        <div class="container">
+            <div class="section-header">
+                <span class="category-badge">OUR SELECTION</span>
+                <h2 class="section-title">Signature Pizzas</h2>
+                <div class="title-divider"></div>
+            </div>
+
+            <div class="menu-grid">
+                <!-- Card 1 -->
+                <div class="menu-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=800&auto=format&fit=crop" alt="Margherita Di Bufala">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="pizza-title">Margherita Di Bufala</h3>
+                        <p class="pizza-desc">San Marzano DOP tomatoes, fresh buffalo mozzarella, basil leaves and extra virgin olive oil.</p>
+                        <div class="card-footer">
+                            <span class="pizza-price">$24</span>
+                            <button class="order-btn">Order</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="menu-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?q=80&w=800&auto=format&fit=crop" alt="Prosciutto e Rucola">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="pizza-title">Prosciutto e Rucola</h3>
+                        <p class="pizza-desc">24-month aged Parma prosciutto, wild arugula, Parmigiano Reggiano flakes and balsamic glaze.</p>
+                        <div class="card-footer">
+                            <span class="pizza-price">$28</span>
+                            <button class="order-btn">Order</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="menu-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop" alt="Tartufo e Funghi">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="pizza-title">Tartufo e Funghi</h3>
+                        <p class="pizza-desc">Black truffle cream, sautéed porcini mushrooms, fior di latte mozzarella and truffle oil.</p>
+                        <div class="card-footer">
+                            <span class="pizza-price">$32</span>
+                            <button class="order-btn">Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTE 1 SECTION -->
+    <section class="info-section" id="teste1">
+        <div class="container info-content">
+            <div class="info-text">
+                <span class="category-badge">TESTE 1</span>
+                <h2>Massa de Fermentação Natural</h2>
+                <p>Nossa massa passa por uma maturação lenta de 48 horas no ambiente controlado antes de ir ao forno de pedra a 450°C.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTE 2 SECTION -->
+    <section class="info-section alt-bg" id="teste2">
+        <div class="container info-content">
+            <div class="info-text">
+                <span class="category-badge">TESTE 2</span>
+                <h2>Ingredientes Importados Itália</h2>
+                <p>Recebemos semanalmente farinha 00 de Nápoles, tomates San Marzano e queijos das colinas da Campânia.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTATO SECTION -->
+    <section class="contact-section" id="contato">
+        <div class="container">
+            <div class="section-header">
+                <span class="category-badge">CONTATO</span>
+                <h2 class="section-title">Endereço & Reservas</h2>
+                <div class="title-divider"></div>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>Localização</h3>
+                    <p>Via Roma, 104 - Centro</p>
+                </div>
+                <div class="contact-card">
+                    <h3>Atendimento</h3>
+                    <p>Terça a Domingo: 18h - 23h30</p>
+                </div>
+                <div class="contact-card">
+                    <h3>Reservas</h3>
+                    <p>+55 (11) 99999-8888</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2026 Bella Italia. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/scripts.js"></script>
 </body>
 </html>
