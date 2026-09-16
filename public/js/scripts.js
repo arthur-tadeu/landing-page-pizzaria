@@ -85,6 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
         revealItems.forEach((item) => item.classList.add("revealed"));
     }
 
+    document.querySelectorAll(".menu-panel.active .reveal").forEach((item) => item.classList.add("revealed"));
+
     /* Filtros do cardápio */
     const filterButtons = document.querySelectorAll("[data-filter]");
     const menuPanels = document.querySelectorAll("[data-panel]");

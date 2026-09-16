@@ -1626,9 +1626,11 @@ a.contact-row:hover > i {
     transition: opacity 800ms var(--ease), transform 950ms var(--ease);
 }
 
-.reveal-ready .reveal.revealed {
-    opacity: 1;
-    transform: translateY(0);
+.reveal-ready .reveal.revealed,
+.reveal-ready .menu-panel.active .reveal,
+.reveal.revealed {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
 }
 
 .reveal-ready .reveal-delay-1 {
