@@ -85,8 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
         revealItems.forEach((item) => item.classList.add("revealed"));
     }
 
-    document.querySelectorAll(".menu-panel.active .reveal").forEach((item) => item.classList.add("revealed"));
-
     /* Filtros do cardápio */
     const filterButtons = document.querySelectorAll("[data-filter]");
     const menuPanels = document.querySelectorAll("[data-panel]");
@@ -114,6 +112,203 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
+
+    /* Carrinho de sabores */
+    const cartToggle = document.getElementById("cart-toggle");
+    const cartDrawer = document.getElementById("cart-drawer");
+    const cartOverlay = document.getElementById("cart-overlay");
+    const cartClose = document.getElementById("cart-close");
+    const cartItems = document.getElementById("cart-items");
+    const cartCount = document.getElementById("cart-count");
+    const cartTotalItems = document.getElementById("cart-total-items");
+    const cartCheckout = document.getElementById("cart-checkout");
+    const cartClear = document.getElementById("cart-clear");
+    const cartToast = document.getElementById("cart-toast");
+    const cartStorageKey = "bella-italia-cart";
+    let cart = [];
+    let toastTimer = 0;
+
+    try {
+        const savedCart = JSON.parse(window.localStorage.getItem(cartStorageKey) || "[]");
+        if (Array.isArray(savedCart)) {
+            cart = savedCart.filter((item) => item && typeof item.name === "string" && item.quantity > 0);
+        }
+    } catch (_) {
+        cart = [];
+    }
+
+    const escapeHtml = (value) => String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+    function saveCart() {
+        try {
+            window.localStorage.setItem(cartStorageKey, JSON.stringify(cart));
+        } catch (_) {
+            // O carrinho continua funcionando durante a sessão se o armazenamento estiver indisponível.
+        }
+    }
+
+    function getCartTotal() {
+        return cart.reduce((total, item) => total + item.quantity, 0);
+    }
+
+    function buildWhatsAppUrl() {
+        const orderLines = cart.map((item) => {
+            const size = item.size === "A escolher" ? "tamanho a confirmar" : item.size;
+            return `• ${item.quantity}x ${item.name} — ${size}`;
+        });
+        const message = [
+            "Olá! Gostaria de fazer um pedido na Bella Italia:",
+            "",
+            ...orderLines,
+            "",
+            "Podemos confirmar os valores e os demais detalhes?"
+        ].join("\n");
+
+        return `https://wa.me/5517997164451?text=${encodeURIComponent(message)}`;
+    }
+
+    function renderCart() {
+        if (!cartItems || !cartCount || !cartTotalItems || !cartCheckout || !cartClear || !cartToggle) return;
+
+        const total = getCartTotal();
+        cartCount.textContent = String(total);
+        cartTotalItems.textContent = String(total);
+        cartToggle.setAttribute("aria-label", total
+            ? `Abrir carrinho, ${total} ${total === 1 ? "item" : "itens"}`
+            : "Abrir carrinho, nenhum item");
+
+        if (!cart.length) {
+            cartItems.innerHTML = `
+                <div class="cart-empty">
+                    <span aria-hidden="true">0</span>
+                    <strong>Seu carrinho está vazio</strong>
+                    <p>Adicione seus sabores preferidos e monte o pedido com calma.</p>
+                </div>`;
+            cartCheckout.setAttribute("aria-disabled", "true");
+            cartCheckout.setAttribute("href", "#");
+            cartClear.disabled = true;
+            saveCart();
+            return;
+        }
+
+        cartItems.innerHTML = cart.map((item, index) => `
+            <div class="cart-item" data-cart-index="${index}">
+                <div>
+                    <strong class="cart-item-name">${escapeHtml(item.name)}</strong>
+                    <label class="cart-size-label">Tamanho
+                        <select data-cart-size="${index}" aria-label="Tamanho da pizza ${escapeHtml(item.name)}">
+                            <option${item.size === "A escolher" ? " selected" : ""}>A escolher</option>
+                            <option${item.size === "Grande" ? " selected" : ""}>Grande</option>
+                            <option${item.size === "Família" ? " selected" : ""}>Família</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="cart-item-actions">
+                    <div class="cart-quantity" aria-label="Quantidade de ${escapeHtml(item.name)}">
+                        <button type="button" data-cart-action="decrease" data-cart-index="${index}" aria-label="Diminuir quantidade">−</button>
+                        <span>${item.quantity}</span>
+                        <button type="button" data-cart-action="increase" data-cart-index="${index}" aria-label="Aumentar quantidade">+</button>
+                    </div>
+                    <button class="cart-remove" type="button" data-cart-action="remove" data-cart-index="${index}" aria-label="Remover ${escapeHtml(item.name)}">×</button>
+                </div>
+            </div>`).join("");
+
+        cartCheckout.setAttribute("aria-disabled", "false");
+        cartCheckout.setAttribute("href", buildWhatsAppUrl());
+        cartClear.disabled = false;
+        saveCart();
+    }
+
+    function setCart(open) {
+        if (!cartDrawer || !cartOverlay || !cartToggle) return;
+        cartDrawer.classList.toggle("open", open);
+        cartOverlay.classList.toggle("open", open);
+        document.body.classList.toggle("cart-open", open);
+        cartDrawer.setAttribute("aria-hidden", String(!open));
+        cartToggle.setAttribute("aria-expanded", String(open));
+
+        if (open) {
+            setMenu(false);
+            window.setTimeout(() => cartClose?.focus(), reduceMotion.matches ? 0 : 280);
+        } else {
+            cartToggle.focus();
+        }
+    }
+
+    function showCartToast(message) {
+        if (!cartToast) return;
+        window.clearTimeout(toastTimer);
+        cartToast.textContent = message;
+        cartToast.classList.add("show");
+        toastTimer = window.setTimeout(() => cartToast.classList.remove("show"), 2200);
+    }
+
+    document.querySelectorAll("[data-add-to-cart]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const name = button.dataset.addToCart;
+            const existingItem = cart.find((item) => item.name === name);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, quantity: 1, size: "A escolher" });
+            }
+
+            renderCart();
+            cartToggle?.classList.remove("bump");
+            window.requestAnimationFrame(() => cartToggle?.classList.add("bump"));
+            button.classList.add("added");
+            const originalText = button.childNodes[0].textContent;
+            button.childNodes[0].textContent = "Adicionado ";
+            showCartToast(`${name} foi adicionado ao carrinho.`);
+
+            window.setTimeout(() => {
+                button.classList.remove("added");
+                button.childNodes[0].textContent = originalText;
+            }, 950);
+        });
+    });
+
+    cartItems?.addEventListener("click", (event) => {
+        const control = event.target.closest("[data-cart-action]");
+        if (!control) return;
+
+        const index = Number(control.dataset.cartIndex);
+        if (!Number.isInteger(index) || !cart[index]) return;
+
+        if (control.dataset.cartAction === "increase") cart[index].quantity += 1;
+        if (control.dataset.cartAction === "decrease") cart[index].quantity -= 1;
+        if (control.dataset.cartAction === "remove" || cart[index].quantity <= 0) cart.splice(index, 1);
+        renderCart();
+    });
+
+    cartItems?.addEventListener("change", (event) => {
+        const select = event.target.closest("[data-cart-size]");
+        if (!select) return;
+        const index = Number(select.dataset.cartSize);
+        if (!Number.isInteger(index) || !cart[index]) return;
+        cart[index].size = select.value;
+        renderCart();
+    });
+
+    cartToggle?.addEventListener("click", () => setCart(!cartDrawer?.classList.contains("open")));
+    cartClose?.addEventListener("click", () => setCart(false));
+    cartOverlay?.addEventListener("click", () => setCart(false));
+    cartClear?.addEventListener("click", () => {
+        cart = [];
+        renderCart();
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && cartDrawer?.classList.contains("open")) setCart(false);
+    });
+
+    renderCart();
 
     /* Vídeo sincronizado com a rolagem */
     const videoSection = document.getElementById("experiencia");

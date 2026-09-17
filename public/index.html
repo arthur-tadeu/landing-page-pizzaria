@@ -58,6 +58,38 @@
         </nav>
     </header>
 
+    <button class="cart-fab" id="cart-toggle" type="button" aria-label="Abrir carrinho, nenhum item"
+        aria-controls="cart-drawer" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 4h2l2.1 10.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L20 8H6"></path>
+            <circle cx="9" cy="20" r="1"></circle>
+            <circle cx="17" cy="20" r="1"></circle>
+        </svg>
+        <span>Carrinho</span>
+        <b id="cart-count" aria-hidden="true">0</b>
+    </button>
+
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-labelledby="cart-title">
+        <div class="cart-header">
+            <div>
+                <span class="eyebrow"><span></span>Seu pedido</span>
+                <h2 id="cart-title">Carrinho</h2>
+            </div>
+            <button class="cart-close" id="cart-close" type="button" aria-label="Fechar carrinho">×</button>
+        </div>
+        <div class="cart-items" id="cart-items" aria-live="polite"></div>
+        <div class="cart-footer">
+            <div class="cart-summary"><span>Total de itens</span><strong id="cart-total-items">0</strong></div>
+            <p>O tamanho, os valores e os demais detalhes serão confirmados pelo WhatsApp.</p>
+            <a class="cart-checkout" id="cart-checkout" href="#" target="_blank" rel="noopener noreferrer"
+                aria-disabled="true">Continuar pelo WhatsApp <span aria-hidden="true">↗</span></a>
+            <button class="cart-clear" id="cart-clear" type="button">Limpar carrinho</button>
+        </div>
+    </aside>
+
+    <div class="cart-toast" id="cart-toast" role="status" aria-live="polite"></div>
+
     <main>
         <section class="hero-image-section" id="hero-section">
             <img src="assets/imgs/hero-bella-italia.png" alt="" class="landing-hero-background" loading="eager"
@@ -140,59 +172,86 @@
 
                 <div class="menu-panels">
                     <div class="menu-panel active" data-panel="salgadas">
-                        <article class="menu-card featured reveal">
-                            <div class="menu-card-top"><span class="menu-number">01</span><span class="menu-tag">Especial da casa</span></div>
-                            <h3>Fernando</h3>
-                            <p>Receita exclusiva da Bella Italia, preparada com a combinação especial da casa.</p>
-                            <div class="menu-card-bottom"><span>Consulte os tamanhos</span><strong>Sabor da casa</strong></div>
+                        <article class="menu-card featured reveal" data-product="Fernando">
+                            <div class="menu-card-media" role="img" aria-label="Foto da pizza Fernando em breve"><span>Foto em breve</span></div>
+                            <div class="menu-card-content">
+                                <div class="menu-card-top"><span class="menu-number">01</span><span class="menu-tag">Especial da casa</span></div>
+                                <h3>Fernando</h3>
+                                <p>Receita exclusiva da Bella Italia, preparada com a combinação especial da casa.</p>
+                                <div class="menu-card-bottom"><span>Consulte os tamanhos</span><button class="add-to-cart" type="button" data-add-to-cart="Fernando">Adicionar <b aria-hidden="true">+</b></button></div>
+                            </div>
                         </article>
-                        <article class="menu-card reveal reveal-delay-1">
-                            <div class="menu-card-top"><span class="menu-number">02</span><span class="menu-tag">Clássica</span></div>
-                            <h3>Calabresa</h3>
-                            <p>Calabresa fatiada, cebola, muçarela, molho artesanal e orégano.</p>
-                            <div class="menu-card-bottom"><span>Grande · Família</span><strong>Favorita</strong></div>
+                        <article class="menu-card reveal reveal-delay-1" data-product="Calabresa">
+                            <div class="menu-card-media" role="img" aria-label="Foto da pizza Calabresa em breve"><span>Foto em breve</span></div>
+                            <div class="menu-card-content">
+                                <div class="menu-card-top"><span class="menu-number">02</span><span class="menu-tag">Clássica</span></div>
+                                <h3>Calabresa</h3>
+                                <p>Calabresa fatiada, cebola, muçarela, molho artesanal e orégano.</p>
+                                <div class="menu-card-bottom"><span>Grande · Família</span><button class="add-to-cart" type="button" data-add-to-cart="Calabresa">Adicionar <b aria-hidden="true">+</b></button></div>
+                            </div>
                         </article>
-                        <article class="menu-card reveal reveal-delay-2">
-                            <div class="menu-card-top"><span class="menu-number">03</span><span class="menu-tag">Cremosa</span></div>
-                            <h3>4 Queijos</h3>
-                            <p>Uma combinação intensa e cremosa de quatro queijos selecionados.</p>
-                            <div class="menu-card-bottom"><span>Grande · Família</span><strong>Especial</strong></div>
+                        <article class="menu-card reveal reveal-delay-2" data-product="4 Queijos">
+                            <div class="menu-card-media" role="img" aria-label="Foto da pizza 4 Queijos em breve"><span>Foto em breve</span></div>
+                            <div class="menu-card-content">
+                                <div class="menu-card-top"><span class="menu-number">03</span><span class="menu-tag">Cremosa</span></div>
+                                <h3>4 Queijos</h3>
+                                <p>Uma combinação intensa e cremosa de quatro queijos selecionados.</p>
+                                <div class="menu-card-bottom"><span>Grande · Família</span><button class="add-to-cart" type="button" data-add-to-cart="4 Queijos">Adicionar <b aria-hidden="true">+</b></button></div>
+                            </div>
                         </article>
-                        <article class="menu-card reveal">
-                            <div class="menu-card-top"><span class="menu-number">04</span><span class="menu-tag">Tradicional</span></div>
-                            <h3>Muçarela</h3>
-                            <p>Muçarela, molho artesanal, tomate e orégano em uma receita atemporal.</p>
-                            <div class="menu-card-bottom"><span>Grande · Família</span><strong>Clássica</strong></div>
+                        <article class="menu-card reveal" data-product="Muçarela">
+                            <div class="menu-card-media" role="img" aria-label="Foto da pizza Muçarela em breve"><span>Foto em breve</span></div>
+                            <div class="menu-card-content">
+                                <div class="menu-card-top"><span class="menu-number">04</span><span class="menu-tag">Tradicional</span></div>
+                                <h3>Muçarela</h3>
+                                <p>Muçarela, molho artesanal, tomate e orégano em uma receita atemporal.</p>
+                                <div class="menu-card-bottom"><span>Grande · Família</span><button class="add-to-cart" type="button" data-add-to-cart="Muçarela">Adicionar <b aria-hidden="true">+</b></button></div>
+                            </div>
                         </article>
-                        <article class="menu-card reveal reveal-delay-1">
-                            <div class="menu-card-top"><span class="menu-number">05</span><span class="menu-tag">Queridinha</span></div>
-                            <h3>Frango com catupiry</h3>
-                            <p>Frango temperado e desfiado com catupiry cremoso e orégano.</p>
-                            <div class="menu-card-bottom"><span>Grande · Família</span><strong>Mais pedida</strong></div>
+                        <article class="menu-card reveal reveal-delay-1" data-product="Frango com catupiry">
+                            <div class="menu-card-media" role="img" aria-label="Foto da pizza Frango com catupiry em breve"><span>Foto em breve</span></div>
+                            <div class="menu-card-content">
+                                <div class="menu-card-top"><span class="menu-number">05</span><span class="menu-tag">Queridinha</span></div>
+                                <h3>Frango com catupiry</h3>
+                                <p>Frango temperado e desfiado com catupiry cremoso e orégano.</p>
+                                <div class="menu-card-bottom"><span>Grande · Família</span><button class="add-to-cart" type="button" data-add-to-cart="Frango com catupiry">Adicionar <b aria-hidden="true">+</b></button></div>
+                            </div>
                         </article>
-                        <article class="menu-card reveal reveal-delay-2">
-                            <div class="menu-card-top"><span class="menu-number">06</span><span class="menu-tag">Completa</span></div>
-                            <h3>Portuguesa</h3>
-                            <p>Presunto, ovos, cebola, ervilha, muçarela e o toque da casa.</p>
-                            <div class="menu-card-bottom"><span>Grande · Família</span><strong>Generosa</strong></div>
+                        <article class="menu-card reveal reveal-delay-2" data-product="Portuguesa">
+                            <div class="menu-card-media" role="img" aria-label="Foto da pizza Portuguesa em breve"><span>Foto em breve</span></div>
+                            <div class="menu-card-content">
+                                <div class="menu-card-top"><span class="menu-number">06</span><span class="menu-tag">Completa</span></div>
+                                <h3>Portuguesa</h3>
+                                <p>Presunto, ovos, cebola, ervilha, muçarela e o toque da casa.</p>
+                                <div class="menu-card-bottom"><span>Grande · Família</span><button class="add-to-cart" type="button" data-add-to-cart="Portuguesa">Adicionar <b aria-hidden="true">+</b></button></div>
+                            </div>
                         </article>
-                        <article class="menu-card reveal">
-                            <div class="menu-card-top"><span class="menu-number">07</span><span class="menu-tag">Defumada</span></div>
-                            <h3>Bacon especial</h3>
-                            <p>Bacon crocante, muçarela, cebola e molho artesanal.</p>
-                            <div class="menu-card-bottom"><span>Grande · Família</span><strong>Intensa</strong></div>
+                        <article class="menu-card reveal" data-product="Bacon especial">
+                            <div class="menu-card-media" role="img" aria-label="Foto da pizza Bacon especial em breve"><span>Foto em breve</span></div>
+                            <div class="menu-card-content">
+                                <div class="menu-card-top"><span class="menu-number">07</span><span class="menu-tag">Defumada</span></div>
+                                <h3>Bacon especial</h3>
+                                <p>Bacon crocante, muçarela, cebola e molho artesanal.</p>
+                                <div class="menu-card-bottom"><span>Grande · Família</span><button class="add-to-cart" type="button" data-add-to-cart="Bacon especial">Adicionar <b aria-hidden="true">+</b></button></div>
+                            </div>
                         </article>
-                        <article class="menu-card reveal reveal-delay-1">
-                            <div class="menu-card-top"><span class="menu-number">08</span><span class="menu-tag">Vegetariana</span></div>
-                            <h3>Rúcula e tomate seco</h3>
-                            <p>Muçarela, rúcula fresca, tomate seco e finalização delicada.</p>
-                            <div class="menu-card-bottom"><span>Grande · Família</span><strong>Leve</strong></div>
+                        <article class="menu-card reveal reveal-delay-1" data-product="Rúcula e tomate seco">
+                            <div class="menu-card-media" role="img" aria-label="Foto da pizza Rúcula e tomate seco em breve"><span>Foto em breve</span></div>
+                            <div class="menu-card-content">
+                                <div class="menu-card-top"><span class="menu-number">08</span><span class="menu-tag">Vegetariana</span></div>
+                                <h3>Rúcula e tomate seco</h3>
+                                <p>Muçarela, rúcula fresca, tomate seco e finalização delicada.</p>
+                                <div class="menu-card-bottom"><span>Grande · Família</span><button class="add-to-cart" type="button" data-add-to-cart="Rúcula e tomate seco">Adicionar <b aria-hidden="true">+</b></button></div>
+                            </div>
                         </article>
-                        <article class="menu-card reveal reveal-delay-2">
-                            <div class="menu-card-top"><span class="menu-number">09</span><span class="menu-tag">Marcante</span></div>
-                            <h3>Carne seca com catupiry</h3>
-                            <p>Carne seca desfiada, cebola e catupiry em uma combinação cremosa.</p>
-                            <div class="menu-card-bottom"><span>Grande · Família</span><strong>Especial</strong></div>
+                        <article class="menu-card reveal reveal-delay-2" data-product="Carne seca com catupiry">
+                            <div class="menu-card-media" role="img" aria-label="Foto da pizza Carne seca com catupiry em breve"><span>Foto em breve</span></div>
+                            <div class="menu-card-content">
+                                <div class="menu-card-top"><span class="menu-number">09</span><span class="menu-tag">Marcante</span></div>
+                                <h3>Carne seca com catupiry</h3>
+                                <p>Carne seca desfiada, cebola e catupiry em uma combinação cremosa.</p>
+                                <div class="menu-card-bottom"><span>Grande · Família</span><button class="add-to-cart" type="button" data-add-to-cart="Carne seca com catupiry">Adicionar <b aria-hidden="true">+</b></button></div>
+                            </div>
                         </article>
                     </div>
 
