@@ -8,6 +8,61 @@ document.addEventListener("DOMContentLoaded", () => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
+    /* Introdução: vídeo, assinatura da marca e retorno ao site */
+    const siteIntro = document.getElementById("site-intro");
+    const siteIntroVideo = document.getElementById("site-intro-video");
+    const siteIntroSkip = document.getElementById("site-intro-skip");
+    let introSafetyTimer = 0;
+    let introTitleTimer = 0;
+    let introCleanupTimer = 0;
+    let introTitleShown = false;
+    let introFinished = false;
+
+    function finishIntro() {
+        if (!siteIntro || introFinished) return;
+        introFinished = true;
+        window.clearTimeout(introSafetyTimer);
+        window.clearTimeout(introTitleTimer);
+        siteIntro.classList.add("is-leaving");
+        introCleanupTimer = window.setTimeout(() => {
+            siteIntro.hidden = true;
+            document.body.classList.remove("intro-active");
+        }, reduceMotion.matches ? 50 : 950);
+    }
+
+    function showIntroTitle() {
+        if (!siteIntro || introTitleShown || introFinished) return;
+        introTitleShown = true;
+        window.clearTimeout(introSafetyTimer);
+        siteIntroVideo?.pause();
+        siteIntro.classList.add("show-title");
+        introTitleTimer = window.setTimeout(finishIntro, reduceMotion.matches ? 900 : 2400);
+    }
+
+    if (siteIntro) {
+        document.body.classList.add("intro-active");
+        siteIntroSkip?.addEventListener("click", finishIntro);
+
+        if (reduceMotion.matches || !siteIntroVideo) {
+            window.setTimeout(showIntroTitle, 100);
+        } else {
+            siteIntroVideo.muted = true;
+            siteIntroVideo.currentTime = 0;
+            siteIntroVideo.addEventListener("ended", showIntroTitle, { once: true });
+            siteIntroVideo.addEventListener("error", showIntroTitle, { once: true });
+            siteIntroVideo.addEventListener("loadedmetadata", () => {
+                if (!Number.isFinite(siteIntroVideo.duration)) return;
+                const maximumWait = Math.min(60000, Math.max(5000, (siteIntroVideo.duration + 1.5) * 1000));
+                introSafetyTimer = window.setTimeout(showIntroTitle, maximumWait);
+            }, { once: true });
+
+            const playback = siteIntroVideo.play();
+            playback?.catch(() => {
+                introSafetyTimer = window.setTimeout(showIntroTitle, 700);
+            });
+        }
+    }
+
     const menuIsOpen = () => navigation?.classList.contains("open");
 
     function setMenu(open) {
@@ -164,14 +219,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-
-    const heroVideo = document.querySelector(".hero-image-section .landing-hero-background");
-    if (heroVideo instanceof HTMLVideoElement) {
-        heroVideo.muted = true;
-        heroVideo.play().catch(() => {
-            // O poster permanece visível quando o navegador bloqueia reprodução automática.
-        });
-    }
 
     /* Carrinho de sabores */
     const cartToggle = document.getElementById("cart-toggle");

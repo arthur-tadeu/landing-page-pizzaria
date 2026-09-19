@@ -14,10 +14,23 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="./css/hero-original.css?v=20260919">
-    <link rel="stylesheet" href="./css/style.css?v=20260919-3">
+    <link rel="stylesheet" href="./css/style.css?v=20260919-4">
 </head>
 
 <body>
+    <div class="site-intro" id="site-intro" role="dialog" aria-label="Introdução da Pizzaria Bella Italia">
+        <video class="site-intro-video" id="site-intro-video" muted playsinline preload="auto" aria-hidden="true">
+            <source src="./assets/videos/teste1.mp4" type="video/mp4">
+        </video>
+        <div class="site-intro-shade" aria-hidden="true"></div>
+        <div class="site-intro-title" aria-live="polite">
+            <span>Pizzaria</span>
+            <strong>Bella Italia</strong>
+            <i aria-hidden="true"></i>
+        </div>
+        <button class="site-intro-skip" id="site-intro-skip" type="button">Pular introdução</button>
+    </div>
+
     <div class="page-scroll-progress" aria-hidden="true"><span id="page-scroll-progress"></span></div>
     <a href="#cardapio" class="landing-skip">Ir para o cardápio</a>
 
@@ -93,10 +106,8 @@
 
     <main>
         <section class="hero-image-section" id="hero-section">
-            <video class="landing-hero-background" autoplay muted loop playsinline preload="auto"
-                poster="./assets/imgs/hero-bella-italia.png" aria-hidden="true">
-                <source src="./assets/videos/teste1.mp4" type="video/mp4">
-            </video>
+            <img src="./assets/imgs/hero-bella-italia.png" alt="" class="landing-hero-background" loading="eager"
+                fetchpriority="high">
 
             <div class="landing-hero-layout">
                 <div class="landing-hero-copy">
@@ -482,7 +493,7 @@
         </div>
     </footer>
 
-    <script src="./js/scripts.js?v=20260919-3"></script>
+    <script src="./js/scripts.js?v=20260919-4"></script>
 </body>
 
 </html>
