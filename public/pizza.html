@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Monte sua pizza Bella Italia escolhendo tamanho, ingredientes, adicionais, borda recheada e bebida.">
+    <meta name="theme-color" content="#10090b">
+    <title>Monte sua pizza — Bella Italia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/pizza.css?v=20260919-1">
+</head>
+
+<body>
+    <header class="builder-header">
+        <a class="back-link" href="./index.html#cardapio"><span aria-hidden="true">←</span> Cardápio</a>
+        <a class="builder-brand" href="./index.html" aria-label="Bella Italia — início">
+            <span class="brand-seal" aria-hidden="true">BI</span>
+            <span><strong>Bella Italia</strong><small>Pizzaria &amp; Esfiharia</small></span>
+        </a>
+        <a class="header-cart" href="./index.html?carrinho=aberto#cardapio">Carrinho <b id="mini-cart-count">0</b></a>
+    </header>
+
+    <main class="pizza-builder">
+        <section class="pizza-showcase" aria-labelledby="pizza-name">
+            <div class="showcase-copy">
+                <span class="eyebrow"><i></i><span id="pizza-tag">Especial da casa</span></span>
+                <p class="step-label">Seu sabor</p>
+                <h1 id="pizza-name">Fernando</h1>
+                <p id="pizza-description">Receita exclusiva da Bella Italia, preparada com a combinação especial da casa.</p>
+            </div>
+
+            <div class="pizza-stage">
+                <div class="pizza-glow" aria-hidden="true"></div>
+                <img src="./assets/imgs/pizza.png" alt="Pizza Bella Italia recém-saída do forno" fetchpriority="high">
+                <span class="image-note">Imagem ilustrativa</span>
+            </div>
+
+            <div class="showcase-note">
+                <span aria-hidden="true">✦</span>
+                <p><strong>Feita do seu jeito</strong>Revise todas as escolhas antes de adicionar ao carrinho.</p>
+            </div>
+        </section>
+
+        <section class="configuration-panel" aria-labelledby="builder-title">
+            <div class="panel-intro">
+                <span class="eyebrow"><i></i>Personalize seu pedido</span>
+                <h2 id="builder-title">Monte cada detalhe.</h2>
+                <p>Escolha o tamanho, retire ingredientes, acrescente seus favoritos e complete com borda e bebida.</p>
+            </div>
+
+            <div class="builder-step" id="size-step">
+                <div class="step-heading">
+                    <span>01</span>
+                    <div><h3>Escolha o tamanho</h3><p>Selecione uma opção para sua pizza.</p></div>
+                </div>
+                <div class="size-options" id="size-options" role="group" aria-label="Tamanho da pizza"></div>
+            </div>
+
+            <div class="builder-step">
+                <div class="step-heading">
+                    <span>02</span>
+                    <div><h3>Ingredientes</h3><p>Toque em um ingrediente para retirá-lo da receita.</p></div>
+                </div>
+                <div class="chip-options" id="ingredient-options" role="group" aria-label="Ingredientes da pizza"></div>
+            </div>
+
+            <div class="builder-step">
+                <div class="step-heading">
+                    <span>03</span>
+                    <div><h3>Adicionais</h3><p>Escolha quantos quiser. Valores confirmados no atendimento.</p></div>
+                </div>
+                <div class="chip-options" id="extra-options" role="group" aria-label="Ingredientes adicionais"></div>
+            </div>
+
+            <div class="builder-step">
+                <div class="step-heading">
+                    <span>04</span>
+                    <div><h3>Borda recheada</h3><p>Mais sabor até a última mordida.</p></div>
+                </div>
+                <div class="card-options crust-options" id="crust-options" role="radiogroup" aria-label="Borda recheada"></div>
+            </div>
+
+            <div class="builder-step">
+                <div class="step-heading">
+                    <span>05</span>
+                    <div><h3>Refrigerante</h3><p>Escolha uma bebida gelada para acompanhar.</p></div>
+                </div>
+                <div class="card-options drink-options" id="drink-options" role="radiogroup" aria-label="Refrigerante"></div>
+                <div class="drink-quantity" id="drink-quantity" hidden>
+                    <span>Quantidade da bebida</span>
+                    <div class="quantity-control">
+                        <button type="button" data-counter="drink" data-direction="decrease" aria-label="Diminuir quantidade da bebida">−</button>
+                        <b id="drink-quantity-value">1</b>
+                        <button type="button" data-counter="drink" data-direction="increase" aria-label="Aumentar quantidade da bebida">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-review" aria-live="polite">
+                <div>
+                    <span class="review-kicker">Seu pedido</span>
+                    <h3 id="review-name">Pizza Fernando</h3>
+                    <ul id="order-summary"></ul>
+                </div>
+                <div class="pizza-quantity">
+                    <span>Quantidade</span>
+                    <div class="quantity-control">
+                        <button type="button" data-counter="pizza" data-direction="decrease" aria-label="Diminuir quantidade de pizzas">−</button>
+                        <b id="pizza-quantity-value">1</b>
+                        <button type="button" data-counter="pizza" data-direction="increase" aria-label="Aumentar quantidade de pizzas">+</button>
+                    </div>
+                </div>
+                <p class="price-note">O valor final e a disponibilidade dos adicionais serão confirmados pelo WhatsApp.</p>
+                <div class="review-actions">
+                    <button class="add-order" id="add-order" type="button">Adicionar ao carrinho <span aria-hidden="true">→</span></button>
+                    <a class="view-cart" id="view-cart" href="./index.html?carrinho=aberto#cardapio" hidden>Ver carrinho</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="builder-toast" id="builder-toast" role="status" aria-live="polite"></div>
+
+    <footer class="builder-footer">
+        <span>© <span id="current-year">2026</span> Bella Italia</span>
+        <a href="./index.html#contato">Precisa de ajuda? Fale conosco</a>
+    </footer>
+
+    <script src="./js/pizza.js?v=20260919-1"></script>
+</body>
+
+</html>

@@ -143,6 +143,36 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    /* Os cards de pizza levam para a página de montagem */
+    document.querySelectorAll(".menu-card[data-product]").forEach((card) => {
+        const productName = card.dataset.product;
+        const productUrl = `./pizza.html?produto=${encodeURIComponent(productName)}`;
+        card.classList.add("is-clickable");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("role", "link");
+        card.setAttribute("aria-label", `Montar pizza ${productName}`);
+
+        card.addEventListener("click", (event) => {
+            if (event.target.closest("a, button, select, input")) return;
+            window.location.href = productUrl;
+        });
+
+        card.addEventListener("keydown", (event) => {
+            if ((event.key === "Enter" || event.key === " ") && event.target === card) {
+                event.preventDefault();
+                window.location.href = productUrl;
+            }
+        });
+    });
+
+    const heroVideo = document.querySelector(".hero-image-section .landing-hero-background");
+    if (heroVideo instanceof HTMLVideoElement) {
+        heroVideo.muted = true;
+        heroVideo.play().catch(() => {
+            // O poster permanece visível quando o navegador bloqueia reprodução automática.
+        });
+    }
+
     /* Carrinho de sabores */
     const cartToggle = document.getElementById("cart-toggle");
     const cartDrawer = document.getElementById("cart-drawer");
@@ -179,7 +209,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     ...item,
                     removedIngredients: Array.isArray(item.removedIngredients) ? item.removedIngredients : [],
                     addedIngredients: Array.isArray(item.addedIngredients) ? item.addedIngredients : [],
-                    customizerOpen: Boolean(item.customizerOpen)
+                    customizerOpen: Boolean(item.customizerOpen),
+                    crust: typeof item.crust === "string" ? item.crust : "Sem borda recheada",
+                    drink: typeof item.drink === "string" ? item.drink : "Sem bebida",
+                    drinkQuantity: Number.isInteger(item.drinkQuantity) ? item.drinkQuantity : 0
                 }));
         }
     } catch (_) {
@@ -211,6 +244,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const lines = [`• ${item.quantity}x ${item.name} — ${size}`];
             if (item.removedIngredients?.length) lines.push(`  Sem: ${item.removedIngredients.join(", ")}`);
             if (item.addedIngredients?.length) lines.push(`  Adicionar: ${item.addedIngredients.join(", ")}`);
+            if (item.crust && item.crust !== "Sem borda recheada") lines.push(`  Borda: ${item.crust}`);
+            if (item.drink && item.drink !== "Sem bebida") lines.push(`  Bebida: ${item.drinkQuantity || 1}x ${item.drink}`);
             return lines.join("\n");
         });
         const message = [
@@ -266,6 +301,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             <option${item.size === "Família" ? " selected" : ""}>Família</option>
                         </select>
                     </label>
+                    ${(item.crust && item.crust !== "Sem borda recheada") || (item.drink && item.drink !== "Sem bebida") ? `
+                        <div class="cart-item-selections">
+                            ${item.crust && item.crust !== "Sem borda recheada" ? `<span><b>Borda</b>${escapeHtml(item.crust)}</span>` : ""}
+                            ${item.drink && item.drink !== "Sem bebida" ? `<span><b>Bebida</b>${item.drinkQuantity || 1}x ${escapeHtml(item.drink)}</span>` : ""}
+                        </div>` : ""}
                 </div>
                 <div class="cart-item-actions">
                     <div class="cart-quantity" aria-label="Quantidade de ${escapeHtml(item.name)}">
@@ -345,7 +385,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     size: "A escolher",
                     removedIngredients: [],
                     addedIngredients: [],
-                    customizerOpen: false
+                    customizerOpen: false,
+                    crust: "Sem borda recheada",
+                    drink: "Sem bebida",
+                    drinkQuantity: 0
                 });
             }
 
@@ -430,6 +473,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     renderCart();
+
+    if (new URLSearchParams(window.location.search).get("carrinho") === "aberto" && cart.length) {
+        setCart(true);
+        try {
+            window.history.replaceState({}, "", `${window.location.pathname}#cardapio`);
+        } catch (_) {
+            // Em abertura direta por arquivo, alguns navegadores não permitem limpar a URL.
+        }
+    }
 
     /* Vídeo sincronizado com a rolagem */
     const videoSection = document.getElementById("experiencia");
