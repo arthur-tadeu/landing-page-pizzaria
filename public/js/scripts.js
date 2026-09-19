@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const navigation = document.getElementById("landing-nav-links") || document.getElementById("nav-links");
     const overlay = document.getElementById("landing-menu-overlay") || document.getElementById("menu-overlay");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
     const menuIsOpen = () => navigation?.classList.contains("open");
 
@@ -39,11 +40,28 @@ document.addEventListener("DOMContentLoaded", () => {
         if (window.innerWidth > 850 && menuIsOpen()) setMenu(false);
     }, { passive: true });
 
+    const scrollProgressBar = document.getElementById("page-scroll-progress");
+    const parallaxItems = [...document.querySelectorAll(".section-orb, .story-card, .feature-icon, .contact-glow")];
     let pageFrame = 0;
 
     function updatePageState() {
         pageFrame = 0;
         header?.classList.toggle("scrolled", window.scrollY > 36);
+
+        const scrollableHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        const pageProgress = clamp(window.scrollY / scrollableHeight, 0, 1);
+        if (scrollProgressBar) scrollProgressBar.style.transform = `scaleX(${pageProgress})`;
+
+        if (!reduceMotion.matches) {
+            parallaxItems.forEach((item, index) => {
+                const rect = item.getBoundingClientRect();
+                if (rect.bottom < -100 || rect.top > window.innerHeight + 100) return;
+                const centerOffset = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
+                const direction = index % 2 === 0 ? 1 : -1;
+                const strength = item.matches(".section-orb, .contact-glow") ? 42 : 20;
+                item.style.setProperty("--scroll-shift", `${clamp(centerOffset * strength * direction, -30, 30).toFixed(1)}px`);
+            });
+        }
 
         const sections = [...document.querySelectorAll("main section[id]")];
         const marker = window.scrollY + Math.min(220, window.innerHeight * 0.32);
@@ -63,9 +81,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     window.addEventListener("scroll", requestPageUpdate, { passive: true });
+    window.addEventListener("resize", requestPageUpdate, { passive: true });
     updatePageState();
 
-    /* Entrada suave das seções */
+    /* Entradas variadas e escalonadas ao rolar */
+    document.querySelectorAll(".trust-grid, .menu-panel, .feature-grid").forEach((group) => {
+        [...group.querySelectorAll(":scope > .reveal")].forEach((item, index) => {
+            item.style.setProperty("--reveal-delay", `${Math.min(index % 3, 2) * 130}ms`);
+            item.classList.add(index % 2 === 0 ? "reveal-left" : "reveal-right");
+        });
+    });
+
+    document.querySelectorAll(".story-copy, .contact-copy").forEach((item) => item.classList.add("reveal-left"));
+    document.querySelectorAll(".story-visual, .contact-card").forEach((item) => item.classList.add("reveal-right"));
+    document.querySelectorAll(".section-heading, .price-list, .menu-cta").forEach((item) => item.classList.add("reveal-scale"));
+
     const revealItems = document.querySelectorAll(".reveal");
 
     if ("IntersectionObserver" in window && !reduceMotion.matches) {
@@ -125,13 +155,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const cartClear = document.getElementById("cart-clear");
     const cartToast = document.getElementById("cart-toast");
     const cartStorageKey = "bella-italia-cart";
+    const pizzaIngredients = {
+        "Fernando": ["Molho artesanal", "Muçarela", "Orégano"],
+        "Calabresa": ["Calabresa", "Cebola", "Muçarela", "Molho artesanal", "Orégano"],
+        "4 Queijos": ["Mix de quatro queijos", "Molho artesanal", "Orégano"],
+        "Muçarela": ["Muçarela", "Molho artesanal", "Tomate", "Orégano"],
+        "Frango com catupiry": ["Frango", "Catupiry", "Orégano"],
+        "Portuguesa": ["Presunto", "Ovos", "Cebola", "Ervilha", "Muçarela"],
+        "Bacon especial": ["Bacon", "Muçarela", "Cebola", "Molho artesanal"],
+        "Rúcula e tomate seco": ["Muçarela", "Rúcula", "Tomate seco"],
+        "Carne seca com catupiry": ["Carne seca", "Cebola", "Catupiry"]
+    };
+    const extraIngredients = ["Bacon", "Catupiry", "Cheddar", "Cebola", "Azeitona", "Milho", "Tomate", "Rúcula"];
     let cart = [];
     let toastTimer = 0;
 
     try {
         const savedCart = JSON.parse(window.localStorage.getItem(cartStorageKey) || "[]");
         if (Array.isArray(savedCart)) {
-            cart = savedCart.filter((item) => item && typeof item.name === "string" && item.quantity > 0);
+            cart = savedCart
+                .filter((item) => item && typeof item.name === "string" && item.quantity > 0)
+                .map((item) => ({
+                    ...item,
+                    removedIngredients: Array.isArray(item.removedIngredients) ? item.removedIngredients : [],
+                    addedIngredients: Array.isArray(item.addedIngredients) ? item.addedIngredients : [],
+                    customizerOpen: Boolean(item.customizerOpen)
+                }));
         }
     } catch (_) {
         cart = [];
@@ -159,7 +208,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function buildWhatsAppUrl() {
         const orderLines = cart.map((item) => {
             const size = item.size === "A escolher" ? "tamanho a confirmar" : item.size;
-            return `• ${item.quantity}x ${item.name} — ${size}`;
+            const lines = [`• ${item.quantity}x ${item.name} — ${size}`];
+            if (item.removedIngredients?.length) lines.push(`  Sem: ${item.removedIngredients.join(", ")}`);
+            if (item.addedIngredients?.length) lines.push(`  Adicionar: ${item.addedIngredients.join(", ")}`);
+            return lines.join("\n");
         });
         const message = [
             "Olá! Gostaria de fazer um pedido na Bella Italia:",
@@ -196,7 +248,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        cartItems.innerHTML = cart.map((item, index) => `
+        cartItems.innerHTML = cart.map((item, index) => {
+            const baseIngredients = pizzaIngredients[item.name] || ["Molho artesanal", "Muçarela", "Orégano"];
+            const availableExtras = extraIngredients.filter((ingredient) => !baseIngredients.includes(ingredient));
+            const removedIngredients = item.removedIngredients || [];
+            const addedIngredients = item.addedIngredients || [];
+            const customizationCount = removedIngredients.length + addedIngredients.length;
+
+            return `
             <div class="cart-item" data-cart-index="${index}">
                 <div>
                     <strong class="cart-item-name">${escapeHtml(item.name)}</strong>
@@ -216,7 +275,31 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <button class="cart-remove" type="button" data-cart-action="remove" data-cart-index="${index}" aria-label="Remover ${escapeHtml(item.name)}">×</button>
                 </div>
-            </div>`).join("");
+                <details class="cart-customizer" data-customizer-index="${index}"${item.customizerOpen ? " open" : ""}>
+                    <summary>
+                        <span>Personalizar ingredientes</span>
+                        <b>${customizationCount ? `${customizationCount} ${customizationCount === 1 ? "alteração" : "alterações"}` : "Adicionar ou retirar"}</b>
+                    </summary>
+                    <div class="ingredient-editor">
+                        <p class="ingredient-group-label">Retirar da receita</p>
+                        <div class="ingredient-options" role="group" aria-label="Ingredientes para retirar de ${escapeHtml(item.name)}">
+                            ${baseIngredients.map((ingredient) => {
+                                const selected = removedIngredients.includes(ingredient);
+                                return `<button class="ingredient-option${selected ? " is-removed" : ""}" type="button" data-ingredient-action="remove" data-ingredient="${escapeHtml(ingredient)}" data-cart-index="${index}" aria-pressed="${selected}">${selected ? "− " : ""}${escapeHtml(ingredient)}</button>`;
+                            }).join("")}
+                        </div>
+                        <p class="ingredient-group-label">Adicionar extras</p>
+                        <div class="ingredient-options" role="group" aria-label="Ingredientes extras para ${escapeHtml(item.name)}">
+                            ${availableExtras.map((ingredient) => {
+                                const selected = addedIngredients.includes(ingredient);
+                                return `<button class="ingredient-option${selected ? " is-added" : ""}" type="button" data-ingredient-action="add" data-ingredient="${escapeHtml(ingredient)}" data-cart-index="${index}" aria-pressed="${selected}">${selected ? "✓ " : "+ "}${escapeHtml(ingredient)}</button>`;
+                            }).join("")}
+                        </div>
+                        <p class="ingredient-help">A disponibilidade e o valor dos extras são confirmados no atendimento.</p>
+                    </div>
+                </details>
+            </div>`;
+        }).join("");
 
         cartCheckout.setAttribute("aria-disabled", "false");
         cartCheckout.setAttribute("href", buildWhatsAppUrl());
@@ -256,7 +339,14 @@ document.addEventListener("DOMContentLoaded", () => {
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({ name, quantity: 1, size: "A escolher" });
+                cart.push({
+                    name,
+                    quantity: 1,
+                    size: "A escolher",
+                    removedIngredients: [],
+                    addedIngredients: [],
+                    customizerOpen: false
+                });
             }
 
             renderCart();
@@ -275,6 +365,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     cartItems?.addEventListener("click", (event) => {
+        const ingredientControl = event.target.closest("[data-ingredient-action]");
+        if (ingredientControl) {
+            const index = Number(ingredientControl.dataset.cartIndex);
+            const item = cart[index];
+            const ingredient = ingredientControl.dataset.ingredient;
+            if (!Number.isInteger(index) || !item || !ingredient) return;
+
+            const key = ingredientControl.dataset.ingredientAction === "remove"
+                ? "removedIngredients"
+                : "addedIngredients";
+            item[key] = Array.isArray(item[key]) ? item[key] : [];
+
+            const ingredientIndex = item[key].indexOf(ingredient);
+            if (ingredientIndex >= 0) item[key].splice(ingredientIndex, 1);
+            else item[key].push(ingredient);
+
+            item.customizerOpen = true;
+            renderCart();
+            showCartToast(`${ingredient} ${ingredientIndex >= 0 ? "voltou à configuração original" : key === "removedIngredients" ? "será retirado" : "foi adicionado"}.`);
+            return;
+        }
+
         const control = event.target.closest("[data-cart-action]");
         if (!control) return;
 
@@ -286,6 +398,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (control.dataset.cartAction === "remove" || cart[index].quantity <= 0) cart.splice(index, 1);
         renderCart();
     });
+
+    cartItems?.addEventListener("toggle", (event) => {
+        const customizer = event.target.closest?.("[data-customizer-index]");
+        if (!customizer) return;
+        const index = Number(customizer.dataset.customizerIndex);
+        if (!Number.isInteger(index) || !cart[index]) return;
+        cart[index].customizerOpen = customizer.open;
+        saveCart();
+    }, true);
 
     cartItems?.addEventListener("change", (event) => {
         const select = event.target.closest("[data-cart-size]");
@@ -319,8 +440,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let targetTime = 0;
     let scrubFrame = 0;
     let scrollFrame = 0;
-
-    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
     function setActiveChapter(progress) {
         const activeChapter = progress < 0.3 ? "1" : progress < 0.66 ? "2" : "3";
